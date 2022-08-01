@@ -1,0 +1,20 @@
+name: Checkmarx AST Scan
+on: [push.pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Checkmarx AST Github Action
+        uses: Checkmarx/ast-github-action@2.0.7
+        with:
+          base_uri: https://ast.checkmarx.net
+          cx_tenant: dp_wp_na
+          cx_client_id: ${{ secrets.CLIENT_ID }}
+          cx_client_secret: ${{ secrets.SECRET }}
+          project_name: ${{ github.repository }}
+          branch: ${{ github.ref }}
+          additional_params: --tags GitHub --scan-types sast,kics,sca
+          
